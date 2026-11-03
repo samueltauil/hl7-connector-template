@@ -22,6 +22,10 @@ The mock is synthetic, local, in-memory, and **not a Dynamics service**.
 4. Follow the [Participant guide](docs/participant-guide.md). It contains the
    exact Copilot prompts, terminal commands, checkpoints, and troubleshooting.
 
+If Developer PowerShell fails to accept input, use **Developer Command Prompt**
+and prefix each script command with `pwsh -NoProfile -File`, for example
+`pwsh -NoProfile -File .\scripts\preflight.ps1`.
+
 Use Visual Studio 2026 **18.5 or later**, a Java **21 JDK**, Git, Python **3.10+**,
 and your own Copilot access. See the environment document for the actual rehearsal
 build and any differences. Maven is provided through the pinned wrapper.
@@ -45,7 +49,7 @@ is involved.
 | Resource | Purpose |
 | --- | --- |
 | [Exercise brief](docs/exercise-brief.md) | Listener/adapter boundary and exact contract |
-| [Acceptance criteria](docs/acceptance-criteria.md) | Required application behavior and tests |
+| [Acceptance criteria](docs/acceptance-criteria.md) | Required application behavior and demo checks |
 | [Copilot customization notes](docs/copilot-customizations.md) | Roles and review checks, not prewritten files |
 | `fixtures` | Four synthetic HL7 v2.5 messages |
 | `scripts` | Mock, MLLP sender, readiness and end-to-end verification |
@@ -53,6 +57,23 @@ is involved.
 | [Facilitator guide](docs/facilitator-guide.md) | Pacing, recovery, and readiness limitations |
 | [Official sources](docs/official-sources.md) | Primary documentation inventory |
 | [Rehearsal evidence](docs/rehearsal.md) | Observed results, screenshots, and remaining gates |
+
+## Rehearsal status
+
+On November 3, 2026, a separate local copy passed all three demo checks in
+Visual Studio: Project A delivery, Project B isolation with no Java changes,
+and rejection with no new events. Visual Studio Copilot generated the solution
+and repaired an HTTP body-framing mismatch exposed by the first runtime check.
+
+The participant guide includes real Visual Studio screenshots, short prompts,
+and the recovery steps used during that run. See the
+[rehearsal record](docs/rehearsal.md) for environment details and UI automation
+limitations. This was not a timed participant pilot.
+
+The generated solution stays outside this template. The separate rehearsal
+repository preserves `rehearsal-project-a` and `rehearsal-project-b` tags.
+
+## Organizer checks
 
 Scaffold checks:
 
