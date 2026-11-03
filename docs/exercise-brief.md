@@ -104,6 +104,10 @@ Build an explicit outbound HTTP header allowlist, rather than forwarding all
 HL7/Camel headers. Preserve the exchange properties needed for acknowledgment
 generation when cleaning message headers.
 
+The supplied mock accepts a JSON body of at most 16 KiB with `Content-Length`;
+it rejects chunked transfer encoding. Send a fixed-length JSON body from the
+adapter, not an unknown-length stream.
+
 Keep patient fields out of listener logs and error messages. Synthetic values
 can appear in the deliberately local mock's inspection response.
 

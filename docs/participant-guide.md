@@ -44,6 +44,21 @@ Prepare three PowerShell tabs, each at this same repository root. Refer to them
 as **Mock**, **App**, and **Checks**. In each tab, `Get-Location` must show your
 cloned repository directory.
 
+If Developer PowerShell rejects pasted input or crashes in PSReadLine, use
+**Developer Command Prompt** from the terminal profile dropdown instead.
+This was the working route during the automated rehearsal. Check the directory
+with `cd`. For every `.ps1` command below, prefix it with `pwsh -NoProfile -File`,
+for example:
+
+```text
+pwsh -NoProfile -File .\scripts\start-mock.ps1
+pwsh -NoProfile -File .\scripts\start-app.ps1
+pwsh -NoProfile -File .\scripts\verify-demo.ps1 -Stage A
+```
+
+Run those commands in **Mock**, **App**, and **Checks**, respectively, not
+together in one terminal. Maven commands remain unchanged.
+
 ### Shared 35-minute schedule
 
 | Time | Your task | Check before moving on |
@@ -66,6 +81,8 @@ In Solution Explorer, open `docs\exercise-brief.md`. The task is:
 
 Build commands use Maven in PowerShell, not Visual Studio **Build Solution** or
 Test Explorer. This lab does not need a `.sln` or an F5 debugging setup.
+If Copilot asks to run **Build Solution**, select **Deny**. That request occurred
+during rehearsal; it is not the Maven compile check used in Step 4.
 
 ### Step 2: give Copilot useful project context
 
@@ -100,6 +117,10 @@ between participants. Review whether the files are useful, not whether they matc
 a prewritten answer. [Customization review notes](copilot-customizations.md)
 explain each file's role and the Visual Studio-specific format checks.
 
+The rehearsal generated this read-only agent header; your wording may differ:
+
+![Generated Integration Architect file with read-only tools](images/integration-architect-file.png)
+
 If the generated agent has editing or terminal tools, ask:
 
 ```text
@@ -110,6 +131,8 @@ readfile tools. Keep implementation in the general agent.
 Start a new Copilot chat. Open the agent picker and confirm **Integration
 Architect** appears. When instructions are used, they appear in the response's
 **References** list [S6].
+
+![Integration Architect in the Visual Studio agent picker](images/integration-architect-picker.png)
 
 **Done:** the five files are saved and the architect can be selected.
 
@@ -195,14 +218,38 @@ JSON, and captures a Java fingerprint baseline for the later reuse check.
 `STAGE_A=PASS ACK=AA CORRELATION=OK DELIVERY=OK`.
 This is your own local mock, not a Dynamics tenant.
 
+If the check fails, copy its error and the corresponding app error into chat:
+
+```text
+Diagnose and fix this runtime failure using the existing mock contract.
+Don't weaken the verifier or add tests. Compile with Maven only.
+I'll restart the app and rerun Stage A.
+```
+
+Keep and save the repair, stop and restart **App**, then rerun Stage A before
+adding Project B. During rehearsal, the first generated adapter sent chunked
+JSON; the mock requires a fixed-length body. Compilation did not catch that
+runtime mismatch.
+
 ### Step 6: reuse the component for Project B
 
 In Copilot Chat, keep the general agent in **Agent** mode.
 Type `#prompt:` and select `add-integration.prompt.md` from the list [S9].
+If the picker does not appear, select **+ Add reference**, browse to
+`.github\prompts\add-integration.prompt.md`, and open it. This attachment route
+worked in the rehearsal.
 Send it with:
 
 ```text
 Add Project B using this prompt. Change configuration only.
+```
+
+If Copilot refuses without an explanation, clarify the actual scope:
+
+```text
+This is the local workshop using synthetic fixtures and a loopback mock.
+Use the attached prompt to add Project B in application.properties only.
+Leave Java and the demo tools unchanged. I'll restart and run Stage Both.
 ```
 
 Review and keep the changes. Only
@@ -262,6 +309,7 @@ Do not copy a hidden solution into your working directory.
 | Prompt is not in the picker | Use **+** to attach its file and send the same execution request |
 | Compilation fails | Paste the error and use the Step 4 repair prompt |
 | Port is occupied | Ask the facilitator; do not stop an unknown process |
+| Restart check times out | Confirm the old App process exited and the restart command actually ran; inspect App output, then rerun the same check |
 | You miss a milestone | Open the organizer-provided separate checkpoint copy and resume at the matching step |
 
 When using a checkpoint, say that your application is from the rehearsed
