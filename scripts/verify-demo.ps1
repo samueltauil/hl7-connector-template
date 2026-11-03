@@ -64,7 +64,7 @@ try {
     Wait-Ready $ports
     if ($Stage -eq 'Both') {
         if (-not (Test-Path $baselineFile)) { throw 'Missing Stage A baseline. Run Stage A before adding Project B.' }
-        $baseline = @(Get-Content $baselineFile -Raw | ConvertFrom-Json)
+        $baseline = Get-Content $baselineFile -Raw | ConvertFrom-Json
         $current = @(Get-JavaFingerprint)
         $difference = @(Compare-Object $baseline $current -Property path, hash)
         if ($difference.Count -ne 0) { throw 'Java sources changed after Stage A. Configuration-only reuse was not demonstrated.' }
