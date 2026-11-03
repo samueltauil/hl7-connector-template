@@ -46,7 +46,7 @@ is involved.
 | --- | --- |
 | [Exercise brief](docs/exercise-brief.md) | Listener/adapter boundary and exact contract |
 | [Acceptance criteria](docs/acceptance-criteria.md) | Required application behavior and tests |
-| [Copilot recipes](docs/copilot-file-recipes.md) | Five copy-ready files, deliberately inactive |
+| [Copilot customization notes](docs/copilot-customizations.md) | Roles and review checks, not prewritten files |
 | `fixtures` | Four synthetic HL7 v2.5 messages |
 | `scripts` | Mock, MLLP sender, readiness and end-to-end verification |
 | `support-tests` | Tests for the supplied support tools |

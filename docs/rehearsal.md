@@ -20,7 +20,7 @@ The following stages still require the separate Visual Studio-generated copy:
 customization creation, architect selection, skill activation, app compilation,
 Stage A, configuration-only Project B, Stage Both, and Stage Reject.
 
-## Visual Studio computer-use blocker
+## Visual Studio computer-use observations
 
 Computer use observed the running instance and its Agent chat panel. It exposed
 only a sparse accessibility tree (no menu, chat input, or terminal input nodes).
@@ -28,11 +28,19 @@ Indexed and screenshot-coordinate clicks reported completion but produced no
 visible UI change. Keyboard and text insertion attempts returned
 `no_viable_candidate`; the system-menu action was also rejected.
 
+On retry, after the user opened the rehearsal folder, the full accessibility
+tree became available. Folder View showed the expected scaffold, and selecting
+Chat and inserting the exact Step 2 customization prompt succeeded. The prompt
+remains unsent because send approval could not be obtained while the user was
+unavailable. Selecting the Developer PowerShell tab worked, but its terminal
+input again returned `no_viable_candidate`. Its current directory was still
+`source\repos`, confirming why the guide requires setting each terminal's path.
+
 No Copilot request was submitted, no application was generated, and no runtime
 stage was passed through this instance. This must not be presented as a completed
-step-by-step Visual Studio rehearsal. Resolve computer-use input access to the
-running instance before continuing; do not bypass it with shell/UI automation
-or silently substitute another Copilot client.
+step-by-step Visual Studio rehearsal. Obtain approval for the prepared prompt
+and resolve terminal input access before continuing; do not bypass computer use
+with shell/UI automation or silently substitute another Copilot client.
 
 Computer-use screenshots were captured in the session, but there are no verified
 participant-step screenshots embedded in this template yet. Add those only after

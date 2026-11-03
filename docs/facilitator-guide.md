@@ -4,6 +4,10 @@ Keep the workshop to the running component and its configuration-only reuse.
 Do not ask participants to generate JUnit tests or production infrastructure.
 Use Maven compile followed by the three supplied end-to-end demo checks.
 
+Use the participant guide's natural-language prompts. Let Copilot create useful
+customizations from the project context; do not make participants copy canonical
+instruction files. Review behavior and scope rather than identical wording.
+
 Build in your own fresh template copy using section 6, exactly as participants do.
 Announce the step number and pause at minutes 6, 21, 28, and 31 to check the
 group's milestone. Use the same prompts and checks; do not substitute private

@@ -67,20 +67,20 @@ In Solution Explorer, open `docs\exercise-brief.md`. The task is:
 Build commands use Maven in PowerShell, not Visual Studio **Build Solution** or
 Test Explorer. This lab does not need a `.sln` or an F5 debugging setup.
 
-### Step 2: let Copilot create the configuration files
+### Step 2: give Copilot useful project context
 
 Open Copilot Chat. In the mode selector, change **Ask** to **Agent** [S14].
 Use the general agent, not a cloud agent. In **Tools**, check that file reading,
 file editing, and terminal-command tools are enabled.
 
-Use the chat **+** context picker to attach `docs\copilot-file-recipes.md`.
-Paste this prompt:
+Ask Copilot to set up the project for the way you want to work:
 
 ```text
-Read docs\copilot-file-recipes.md and create its five Copilot files exactly.
-Create only the instructions, Java instructions, Integration Architect agent,
-hl7-listener skill, and add-integration prompt.
-Do not create application code or change pom.xml, fixtures, or scripts yet.
+Set up Copilot for this small Java/Camel HL7 workshop.
+Add project instructions, Java-specific instructions, a read-only Integration
+Architect agent, an hl7-listener skill, and an add-integration prompt for Project B.
+Base them on this project's requirements and existing tools. Keep them concise.
+Don't implement the app yet or change the scaffold.
 ```
 
 Review Copilot's **Total changes** and select **Keep** for the correct edits.
@@ -94,8 +94,18 @@ Save the files. You should now have:
 .github\prompts\add-integration.prompt.md
 ```
 
-Open the instruction file and the skill once. Notice the difference: instructions
-set project rules; the skill describes the HL7 implementation workflow.
+Open the instruction file and the skill once. Instructions set project rules;
+the skill describes the HL7 implementation workflow. Copilot's wording can differ
+between participants. Review whether the files are useful, not whether they match
+a prewritten answer. [Customization review notes](copilot-customizations.md)
+explain each file's role and the Visual Studio-specific format checks.
+
+If the generated agent has editing or terminal tools, ask:
+
+```text
+Make Integration Architect read-only, using Visual Studio's code_search and
+readfile tools. Keep implementation in the general agent.
+```
 
 Start a new Copilot chat. Open the agent picker and confirm **Integration
 Architect** appears. When instructions are used, they appear in the response's
@@ -108,10 +118,9 @@ Architect** appears. When instructions are used, they appear in the response's
 Select **Integration Architect** from the agent picker. Paste:
 
 ```text
-Read docs\exercise-brief.md and docs\acceptance-criteria.md.
-Design the reusable listener and separate adapter using the pinned Camel stack.
-Explain their parameters, the AA/AE/AR contract, and how Project B needs no Java
-changes. Keep the answer concise. Do not implement anything.
+How should we separate the reusable HL7 listener from the project adapter?
+Explain the ACK behavior and how we'll add Project B without changing Java.
+Keep the design small and don't implement it yet.
 ```
 
 Review the result with the facilitator:
@@ -132,14 +141,9 @@ which were intentionally unavailable to the architect.
 In the same conversation, paste:
 
 ```text
-Use the hl7-listener skill to implement the reviewed design for Project A only.
-Follow docs\exercise-brief.md and docs\acceptance-criteria.md.
-Create the Camel Main app, reusable listener template, internal envelope,
-separate HTTP adapter template, and Project A configuration.
-Use the existing pinned dependencies, fixtures, and scripts.
-Keep the implementation small. Do not generate tests or add a test framework.
-Run .\mvnw.cmd -q compile and fix any compilation failures.
-Do not start a persistent app or mock process yet.
+Use the hl7-listener skill to build Project A from this design.
+Use the existing dependencies and demo tools. Keep it small; no test suite.
+Compile it and fix any errors. I'll start the app and mock myself.
 ```
 
 When Copilot requests a terminal-command approval, inspect the command and
@@ -157,9 +161,7 @@ Confirm that Copilot actually compiled the app. If no command ran, use the
 If the check fails, paste the error into Copilot Chat:
 
 ```text
-Fix this compile failure within the approved small design.
-Keep the pinned dependencies, fixtures, scripts, and ACK expectations.
-Do not add tests or infrastructure. Rerun .\mvnw.cmd -q compile after the fix.
+Fix this compilation error without changing the stack or demo tools, then compile again.
 ```
 
 **Done:** compilation succeeds and the app, two route templates, and Project A
@@ -200,7 +202,7 @@ Type `#prompt:` and select `add-integration.prompt.md` from the list [S9].
 Send it with:
 
 ```text
-Execute this prompt to add Project B through configuration only.
+Add Project B using this prompt. Change configuration only.
 ```
 
 Review and keep the changes. Only
