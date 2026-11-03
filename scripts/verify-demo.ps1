@@ -5,6 +5,7 @@ $mock = 'http://127.0.0.1:8081'
 $baselineFile = '.lab-runtime\java-baseline.json'
 
 function Wait-Ready([int[]]$Ports) {
+    Write-Host "[VERIFY] Waiting up to 30 seconds for $mock/health and listener ports $($Ports -join ', ')..."
     $deadline = [DateTime]::UtcNow.AddSeconds(30)
     do {
         $ready = $false
@@ -23,7 +24,10 @@ function Wait-Ready([int[]]$Ports) {
         catch [System.Net.Http.HttpRequestException] { $ready = $false }
         catch [System.Net.WebException] { $ready = $false }
         catch [System.AggregateException] { $ready = $false }
-        if ($ready) { return }
+        if ($ready) {
+            Write-Host '[VERIFY] Mock and required listeners are ready.'
+            return
+        }
         Start-Sleep -Milliseconds 150
     } while ([DateTime]::UtcNow -lt $deadline)
     throw 'Readiness deadline reached. Start Mock and App in their own terminals; inspect their errors.'
@@ -44,6 +48,7 @@ function Get-JavaFingerprint {
 }
 
 function Send-Fixture([int]$Port, [string]$File, [string]$Expected) {
+    Write-Host "[VERIFY] Sending $File to port $Port; expecting a correlated $Expected ACK."
     & python .\scripts\send_hl7.py --host 127.0.0.1 --port $Port --file ".\fixtures\$File" --expect $Expected --timeout 5
     if ($LASTEXITCODE -ne 0) { throw "Wire verification failed for $File on port $Port." }
 }
@@ -56,25 +61,31 @@ function Assert-Delivery($Before, $After, [string]$Id, [string]$Source, [string]
         @($event.PSObject.Properties).Count -ne 4) {
         throw "Destination content mismatch for $Id."
     }
+    Write-Host "[VERIFY] Delivery confirmed for $Id`: exactly one new event and matching JSON fields."
 }
 
 try {
+    Write-Host "[VERIFY] Starting Stage $Stage in $((Get-Location).Path)"
     $ports = @(2575)
     if ($Stage -eq 'Both') { $ports += 2576 }
     Wait-Ready $ports
     if ($Stage -eq 'Both') {
+        Write-Host "[VERIFY] Comparing Java paths and SHA-256 hashes with $baselineFile..."
         if (-not (Test-Path $baselineFile)) { throw 'Missing Stage A baseline. Run Stage A before adding Project B.' }
         $baseline = Get-Content $baselineFile -Raw | ConvertFrom-Json
         $current = @(Get-JavaFingerprint)
         $difference = @(Compare-Object $baseline $current -Property path, hash)
         if ($difference.Count -ne 0) { throw 'Java sources changed after Stage A. Configuration-only reuse was not demonstrated.' }
+        Write-Host "[VERIFY] All $($current.Count) Java files match the saved baseline."
     }
     $aBefore = @(Get-Events 'project-a')
     $bBefore = @(Get-Events 'project-b')
+    Write-Host "[VERIFY] Events before sending: project-a=$($aBefore.Count), project-b=$($bBefore.Count)."
     if ($Stage -eq 'Reject') {
         Send-Fixture 2575 'adt-a08-unsupported.hl7' 'AR'
         if (@(Get-Events 'project-a').Count -ne $aBefore.Count -or
             @(Get-Events 'project-b').Count -ne $bBefore.Count) { throw 'Rejected message created downstream events.' }
+        Write-Host '[VERIFY] Rejection confirmed; neither destination received a new event.'
         Write-Host 'STAGE_REJECT=PASS ACK=AR CORRELATION=OK NEW_EVENTS=0'
         exit 0
     }
@@ -85,6 +96,7 @@ try {
     if ($Stage -eq 'A') {
         New-Item .lab-runtime -ItemType Directory -Force | Out-Null
         ConvertTo-Json -InputObject @(Get-JavaFingerprint) | Set-Content $baselineFile -Encoding UTF8
+        Write-Host "[VERIFY] Saved the Java baseline to $baselineFile for the Project B check."
         Write-Host 'STAGE_A=PASS ACK=AA CORRELATION=OK DELIVERY=OK'
     }
     else {
@@ -92,6 +104,7 @@ try {
         $bAfter = @(Get-Events 'project-b')
         Assert-Delivery $bBefore $bAfter 'DEMO-B-001' 'LAB-B' 'SYNTH-B-200'
         if (@(Get-Events 'project-a').Count -ne $aAfter.Count) { throw 'Project B event leaked into Project A.' }
+        Write-Host '[VERIFY] Isolation confirmed; each project delivered only to its own destination.'
         Write-Host 'STAGE_BOTH=PASS ACK_A=AA ACK_B=AA ISOLATION=OK JAVA_CHANGES=0'
     }
 }

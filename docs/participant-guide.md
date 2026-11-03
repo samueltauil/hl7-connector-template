@@ -32,20 +32,17 @@ sign in to Copilot, then create your working copy:
    Run `Get-Location` to check the directory. If needed, run
    `Set-Location 'C:\path\to\hl7-integration-lab'`, replacing the example path
    with your clone's location. Use the repository root, not `src` or `scripts`.
-10. Run these commands **one at a time in PowerShell** (the prompt starts with
-    `PS`). Wait for warmup to finish before running preflight:
+10. Run these commands **one at a time**, including the
+    `powershell.exe -NoProfile -File` prefix. Wait for warmup to finish before
+    running preflight:
 
 ```powershell
-.\scripts\warmup.ps1
-.\scripts\preflight.ps1
-```
-
-If your terminal is **Developer Command Prompt** instead, run:
-
-```text
 powershell.exe -NoProfile -File .\scripts\warmup.ps1
 powershell.exe -NoProfile -File .\scripts\preflight.ps1
 ```
+
+Use this full command form for every `.ps1` script in the guide, whether your
+Visual Studio terminal uses PowerShell or Developer Command Prompt.
 
 Look for `WARMUP=PASS APPLICATION_FILES_CREATED=0`, then
 `PREFLIGHT=PASS PORTS=FREE`. Warmup may take a few minutes while Maven downloads
@@ -200,20 +197,25 @@ the next steps check the real runtime.
 In the **Mock** terminal:
 
 ```powershell
-.\scripts\start-mock.ps1
+powershell.exe -NoProfile -File .\scripts\start-mock.ps1
 ```
 
 Leave it running. In the **App** terminal:
 
 ```powershell
-.\scripts\start-app.ps1
+powershell.exe -NoProfile -File .\scripts\start-app.ps1
 ```
 
 Leave it running. In the **Checks** terminal:
 
 ```powershell
-.\scripts\verify-demo.ps1 -Stage A
+powershell.exe -NoProfile -File .\scripts\verify-demo.ps1 -Stage A
 ```
+
+The terminals show `[MOCK]`, `[APP]`, and `[VERIFY]` progress messages.
+Startup messages show what is being launched; wait for the verifier to confirm
+readiness. Its logs show the fixture being sent, the expected ACK, and delivery
+checks without printing message bodies.
 
 The verifier sends a sample message, checks that the ACK refers to that message,
 and checks the delivered JSON. It also records the Java file hashes so Step 6
@@ -232,8 +234,9 @@ I'll restart the app and rerun Stage A.
 ```
 
 Keep and save the repair. In **App**, press **Ctrl+C** and wait for the command
-prompt to return, then run `.\scripts\start-app.ps1` again. Leave **Mock** running
-and rerun Stage A in **Checks**. Continue only when Stage A passes.
+prompt to return, then run
+`powershell.exe -NoProfile -File .\scripts\start-app.ps1` again.
+Leave **Mock** running and rerun Stage A in **Checks**. Continue only when Stage A passes.
 
 ### Step 6: reuse the component for Project B
 
@@ -262,13 +265,13 @@ In the **App** terminal, press **Ctrl+C** and wait for the command prompt to ret
 Leave the **Mock** terminal running. Restart the app:
 
 ```powershell
-.\scripts\start-app.ps1
+powershell.exe -NoProfile -File .\scripts\start-app.ps1
 ```
 
 In the **Checks** terminal:
 
 ```powershell
-.\scripts\verify-demo.ps1 -Stage Both
+powershell.exe -NoProfile -File .\scripts\verify-demo.ps1 -Stage Both
 ```
 
 **Done:** the verifier reports
@@ -285,7 +288,7 @@ Do not rerun Stage A to replace the baseline after adding Project B.
 In the **Checks** terminal:
 
 ```powershell
-.\scripts\verify-demo.ps1 -Stage Reject
+powershell.exe -NoProfile -File .\scripts\verify-demo.ps1 -Stage Reject
 ```
 
 **Done:** the verifier reports
@@ -311,17 +314,8 @@ If Developer PowerShell rejects pasted input or crashes in PSReadLine, select
 **Developer Command Prompt** from the terminal profile dropdown. Check your
 directory with `cd`; use `cd /d C:\path\to\hl7-integration-lab` to change it.
 
-Prefix every `.ps1` command with `powershell.exe -NoProfile -File`. For example, the Step 5
-commands become:
-
-| Terminal | Command |
-| --- | --- |
-| Mock | `powershell.exe -NoProfile -File .\scripts\start-mock.ps1` |
-| App | `powershell.exe -NoProfile -File .\scripts\start-app.ps1` |
-| Checks | `powershell.exe -NoProfile -File .\scripts\verify-demo.ps1 -Stage A` |
-
-Use the same prefix for warmup, preflight, and the Both and Reject checks.
-Maven commands remain unchanged.
+Run the same commands shown in the steps above, including the
+`powershell.exe -NoProfile -File` prefix. Maven commands remain unchanged.
 
 ### If you get stuck
 

@@ -18,16 +18,16 @@ instance, reusing the same Java code.
 3. Follow [Environment setup](docs/environment.md), then run in PowerShell:
 
    ```powershell
-   .\scripts\warmup.ps1
-   .\scripts\preflight.ps1
+   powershell.exe -NoProfile -File .\scripts\warmup.ps1
+   powershell.exe -NoProfile -File .\scripts\preflight.ps1
    ```
 
 4. Follow the [Participant guide](docs/participant-guide.md). It contains the
    Copilot prompts, terminal commands, expected results, and troubleshooting.
 
 If Developer PowerShell fails to accept input, use **Developer Command Prompt**
-and prefix each script command with `powershell.exe -NoProfile -File`, for example
-`powershell.exe -NoProfile -File .\scripts\preflight.ps1`.
+and run the same commands. Keep the `powershell.exe -NoProfile -File` prefix
+when running scripts in either terminal profile.
 
 Use Visual Studio 2026 **18.5 or later**, a Java **21 JDK**, Git, Python **3.10+**,
 and your own Copilot access. Maven is provided through the pinned wrapper.

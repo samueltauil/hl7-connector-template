@@ -27,21 +27,15 @@ Use **View > Terminal**, select PowerShell, and run:
 
 ```powershell
 Get-Location
-.\scripts\warmup.ps1
-.\scripts\preflight.ps1
-```
-
-If Developer PowerShell fails to accept input or crashes in PSReadLine, select
-**Developer Command Prompt** in the terminal profile dropdown. This profile
-worked during rehearsal. Check the directory with `cd`, then run:
-
-```text
 powershell.exe -NoProfile -File .\scripts\warmup.ps1
 powershell.exe -NoProfile -File .\scripts\preflight.ps1
 ```
 
-Use the same prefix for the other `.ps1` commands in the participant guide.
-Maven commands remain unchanged.
+If Developer PowerShell fails to accept input or crashes in PSReadLine, select
+**Developer Command Prompt** in the terminal profile dropdown. This profile
+worked during rehearsal. Check the directory with `cd`, then run the same
+commands. Keep the `powershell.exe -NoProfile -File` prefix for every `.ps1`
+command in either terminal profile. Maven commands remain unchanged.
 
 Warmup resolves dependencies/plugins but creates no application or active
 Copilot files. First-time downloads need network access to Maven Central.
