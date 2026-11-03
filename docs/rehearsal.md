@@ -31,16 +31,23 @@ visible UI change. Keyboard and text insertion attempts returned
 On retry, after the user opened the rehearsal folder, the full accessibility
 tree became available. Folder View showed the expected scaffold, and selecting
 Chat and inserting the exact Step 2 customization prompt succeeded. The prompt
-remains unsent because send approval could not be obtained while the user was
-unavailable. Selecting the Developer PowerShell tab worked, but its terminal
+was left unsent during that attempt. Selecting the Developer PowerShell tab worked, but its terminal
 input again returned `no_viable_candidate`. Its current directory was still
 `source\repos`, confirming why the guide requires setting each terminal's path.
 
 No Copilot request was submitted, no application was generated, and no runtime
 stage was passed through this instance. This must not be presented as a completed
-step-by-step Visual Studio rehearsal. Obtain approval for the prepared prompt
-and resolve terminal input access before continuing; do not bypass computer use
+step-by-step Visual Studio rehearsal. Resolve chat and terminal input access
+before continuing; do not bypass computer use
 with shell/UI automation or silently substitute another Copilot client.
+
+At the user's request, the guide was subsequently changed to short,
+natural-language prompts. The prewritten customization recipes were removed,
+and the rehearsal clone was updated. Another computer-use retry exposed only
+the sparse tree again; the system-menu action failed with
+`UIA ExpandCollapse.Expand failed: 0x80131509`. The old recipe-based chat draft
+has not been replaced or sent. Use the updated Step 2 prompt, not that stale draft,
+when input is available.
 
 Computer-use screenshots were captured in the session, but there are no verified
 participant-step screenshots embedded in this template yet. Add those only after
