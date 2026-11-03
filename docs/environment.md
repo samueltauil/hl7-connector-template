@@ -36,8 +36,8 @@ If Developer PowerShell fails to accept input or crashes in PSReadLine, select
 worked during rehearsal. Check the directory with `cd`, then run:
 
 ```text
-pwsh -NoProfile -File .\scripts\warmup.ps1
-pwsh -NoProfile -File .\scripts\preflight.ps1
+powershell.exe -NoProfile -File .\scripts\warmup.ps1
+powershell.exe -NoProfile -File .\scripts\preflight.ps1
 ```
 
 Use the same prefix for the other `.ps1` commands in the participant guide.

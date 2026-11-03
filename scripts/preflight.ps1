@@ -7,8 +7,8 @@ foreach ($command in @('java', 'javac', 'python', 'git')) {
     }
 }
 if (Get-Command java -ErrorAction SilentlyContinue) {
-    $versionOutput = (& java -version 2>&1 | Out-String)
-    if ($LASTEXITCODE -ne 0 -or $versionOutput -notmatch 'version "(21|25)\.') {
+    $versionOutput = (& java --version 2>&1 | Out-String)
+    if ($LASTEXITCODE -ne 0 -or $versionOutput -notmatch '(?m)^(openjdk|java) (21|25)\.') {
         $failures.Add('Use a Java 21 JDK (or the documented Java 25 rehearsal environment).')
     }
 }

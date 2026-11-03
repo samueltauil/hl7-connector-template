@@ -32,12 +32,25 @@ sign in to Copilot, then create your working copy:
    Run `Get-Location` to check the directory. If needed, run
    `Set-Location 'C:\path\to\hl7-integration-lab'`, replacing the example path
    with your clone's location. Use the repository root, not `src` or `scripts`.
-10. Run:
+10. Run these commands **one at a time in PowerShell** (the prompt starts with
+    `PS`). Wait for warmup to finish before running preflight:
 
 ```powershell
 .\scripts\warmup.ps1
 .\scripts\preflight.ps1
 ```
+
+If your terminal is **Developer Command Prompt** instead, run:
+
+```text
+powershell.exe -NoProfile -File .\scripts\warmup.ps1
+powershell.exe -NoProfile -File .\scripts\preflight.ps1
+```
+
+Look for `WARMUP=PASS APPLICATION_FILES_CREATED=0`, then
+`PREFLIGHT=PASS PORTS=FREE`. Warmup may take a few minutes while Maven downloads
+dependencies. If the terminal reports that script execution is disabled, follow
+the execution-policy guidance in [Environment setup](environment.md).
 
 Both commands must succeed before you continue. If either fails, resolve the
 reported problem using [Environment setup](environment.md), then run it again.
@@ -298,14 +311,14 @@ If Developer PowerShell rejects pasted input or crashes in PSReadLine, select
 **Developer Command Prompt** from the terminal profile dropdown. Check your
 directory with `cd`; use `cd /d C:\path\to\hl7-integration-lab` to change it.
 
-Prefix every `.ps1` command with `pwsh -NoProfile -File`. For example, the Step 5
+Prefix every `.ps1` command with `powershell.exe -NoProfile -File`. For example, the Step 5
 commands become:
 
 | Terminal | Command |
 | --- | --- |
-| Mock | `pwsh -NoProfile -File .\scripts\start-mock.ps1` |
-| App | `pwsh -NoProfile -File .\scripts\start-app.ps1` |
-| Checks | `pwsh -NoProfile -File .\scripts\verify-demo.ps1 -Stage A` |
+| Mock | `powershell.exe -NoProfile -File .\scripts\start-mock.ps1` |
+| App | `powershell.exe -NoProfile -File .\scripts\start-app.ps1` |
+| Checks | `powershell.exe -NoProfile -File .\scripts\verify-demo.ps1 -Stage A` |
 
 Use the same prefix for warmup, preflight, and the Both and Reject checks.
 Maven commands remain unchanged.

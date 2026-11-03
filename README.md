@@ -26,8 +26,8 @@ instance, reusing the same Java code.
    Copilot prompts, terminal commands, expected results, and troubleshooting.
 
 If Developer PowerShell fails to accept input, use **Developer Command Prompt**
-and prefix each script command with `pwsh -NoProfile -File`, for example
-`pwsh -NoProfile -File .\scripts\preflight.ps1`.
+and prefix each script command with `powershell.exe -NoProfile -File`, for example
+`powershell.exe -NoProfile -File .\scripts\preflight.ps1`.
 
 Use Visual Studio 2026 **18.5 or later**, a Java **21 JDK**, Git, Python **3.10+**,
 and your own Copilot access. Maven is provided through the pinned wrapper.
