@@ -4,10 +4,6 @@ Build a reusable HL7 v2 MLLP listener with GitHub Copilot in Visual Studio.
 Prove reuse by adding a second project through configuration, without changing
 Java. Each developer works in their own repository and runs their own local mock.
 
-**This is the starting template, not the application.** There is no `src` code
-and no active Copilot customization. Copilot creates both during the lab.
-The mock is synthetic, local, in-memory, and **not a Dynamics service**.
-
 ## Start here
 
 1. Create your own repository from this template, then clone it.
