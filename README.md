@@ -4,6 +4,13 @@ Build a reusable HL7 v2 MLLP listener with GitHub Copilot in Visual Studio.
 Prove reuse by adding a second project through configuration, without changing
 Java. Each developer works in their own repository and runs their own local mock.
 
+You will build a small Java application with a listener that receives HL7
+messages and an adapter that turns them into JSON and sends them to a local
+HTTP mock. The mock stands in for a receiving system, and the listener returns
+an acknowledgement to the sender indicating success, rejection, or failure.
+You will then add a second project by configuring another listener and adapter
+instance, reusing the same Java code.
+
 ## Start here
 
 1. Create your own repository from this template, then clone it.
